@@ -9,7 +9,7 @@
 import Foundation
 import GoogleSignIn
 
-class GoogleAuthManager: NSObject, GIDSignInDelegate {
+class GoogleAuthManager: NSObject, GIDSignInDelegate, AuthManager {
     
     static let instance = GoogleAuthManager()
     private let datastore = ProfileDatastore()
@@ -20,19 +20,19 @@ class GoogleAuthManager: NSObject, GIDSignInDelegate {
     }
     
     // MARK: - Service methods
-    func login(presentingViewController: UIViewController, onSuccess: (()->Void)?) {
-        GIDSignIn.sharedInstance()?.presentingViewController = presentingViewController
+    func login(in viewController: UIViewController, onSuccess: @escaping () -> Void, onFailure: @escaping (String) -> Void) {
+        GIDSignIn.sharedInstance()?.presentingViewController = viewController
         self.onLogInSuccess = onSuccess
         GIDSignIn.sharedInstance()?.signIn()
+    }
+
+    func logout() {
+        GIDSignIn.sharedInstance().signOut()
+        NotificationCenter.default.post(Notification(name: .init(Constants.Notifications.UserLogedOut)))
     }
     
     func restorePreviousLogin() {
         GIDSignIn.sharedInstance()?.restorePreviousSignIn()
-    }
-    
-    func logout() {
-        GIDSignIn.sharedInstance().signOut()
-        NotificationCenter.default.post(Notification(name: .init(Constants.Notifications.UserLogedOut)))
     }
     
     func fetchProfile(completion: @escaping (Profile)->Void) {

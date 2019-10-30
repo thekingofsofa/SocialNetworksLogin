@@ -10,14 +10,9 @@ import Foundation
 import FacebookCore
 import FacebookLogin
 
-class FacebookAuthManager {
-    static let instance = FacebookAuthManager()
+class FacebookAuthManager: AuthManager {
     
-    var isAuthorized = {
-        return AccessToken.current != nil
-    }
-    
-    func login(in viewController: UIViewController, onSuccess: @escaping ()->Void = {}, onFailure: @escaping (String)->Void = {_ in}) {
+    func login(in viewController: UIViewController, onSuccess: @escaping () -> Void, onFailure: @escaping (String) -> Void) {
         let fbLoginManager : LoginManager = LoginManager()
         fbLoginManager.logIn(permissions: ["email", "public_profile"], from: viewController) { (result, error) -> Void in
             if let error = error {
@@ -40,6 +35,13 @@ class FacebookAuthManager {
             }
             onFailure("Access Not Granted")
         }
+    }
+    
+    
+    static let instance = FacebookAuthManager()
+    
+    var isAuthorized = {
+        return AccessToken.current != nil
     }
     
     func logout() {

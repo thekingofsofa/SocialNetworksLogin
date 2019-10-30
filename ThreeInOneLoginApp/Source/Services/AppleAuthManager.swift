@@ -10,26 +10,26 @@ import Foundation
 import AuthenticationServices
 
 @available(iOS 13, *)
-class AppleAuthManager: NSObject, ASAuthorizationControllerDelegate {
+class AppleAuthManager: NSObject, ASAuthorizationControllerDelegate, AuthManager {
     
     static let instance = AppleAuthManager()
     private let datastore = ProfileDatastore()
     
     var onLogInSuccess: (()->Void)?
     
-    func logout() {
-        // For the purpose of this demo app, delete the user identifier that was previously stored in the keychain.
-        KeychainItem.deleteUserIdentifierFromKeychain()
-        NotificationCenter.default.post(Notification(name: .init(Constants.Notifications.UserLogedOut)))
-    }
-    
-    @objc func handleAppleIdRequest() {
+    func login(in viewController: UIViewController, onSuccess: @escaping () -> Void, onFailure: @escaping (String) -> Void) {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
         let authorizationController = ASAuthorizationController(authorizationRequests: [request])
         authorizationController.delegate = self
         authorizationController.performRequests()
+    }
+    
+    func logout() {
+        // For the purpose of this demo app, delete the user identifier that was previously stored in the keychain.
+        KeychainItem.deleteUserIdentifierFromKeychain()
+        NotificationCenter.default.post(Notification(name: .init(Constants.Notifications.UserLogedOut)))
     }
     
     func checkAuthorization(completionHandler: @escaping(_ isAuthorized: Bool) -> Void) {

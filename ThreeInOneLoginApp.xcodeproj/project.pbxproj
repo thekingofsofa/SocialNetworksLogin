@@ -34,6 +34,7 @@
 		7961637223688CDB002F6881 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7961637123688CDB002F6881 /* AppDelegate.swift */; };
 		7961637923688CDB002F6881 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7961637823688CDB002F6881 /* Assets.xcassets */; };
 		7961637C23688CDB002F6881 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7961637A23688CDB002F6881 /* LaunchScreen.storyboard */; };
+		7980CB992369BF6800DEAE1F /* AuthManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7980CB982369BF6800DEAE1F /* AuthManagerProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -68,6 +69,7 @@
 		7961637823688CDB002F6881 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7961637B23688CDB002F6881 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7961637D23688CDB002F6881 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7980CB982369BF6800DEAE1F /* AuthManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerProtocol.swift; sourceTree = "<group>"; };
 		C43BE3B830488A4B3FC83484 /* Pods_ThreeInOneLoginApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ThreeInOneLoginApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F77CD87745B218742A503C54 /* Pods-ThreeInOneLoginApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ThreeInOneLoginApp.debug.xcconfig"; path = "Target Support Files/Pods-ThreeInOneLoginApp/Pods-ThreeInOneLoginApp.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -150,10 +152,11 @@
 		790DB1B323689E15008AD1A2 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				7904BFFC2368D89F001BC787 /* AppleAuthManager.swift */,
 				7904BFFE2368D8A3001BC787 /* ProfileDatastore.swift */,
+				7904BFFC2368D89F001BC787 /* AppleAuthManager.swift */,
 				7904BFE82368B066001BC787 /* FacebookAuthManager.swift */,
 				790DB1C723689ED9008AD1A2 /* GoogleAuthManager.swift */,
+				7980CB982369BF6800DEAE1F /* AuthManagerProtocol.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 				790DB1C323689E85008AD1A2 /* BaseViewController.swift in Sources */,
 				790DB1C023689E7E008AD1A2 /* LoadingImageView.swift in Sources */,
 				7904BFFD2368D89F001BC787 /* AppleAuthManager.swift in Sources */,
+				7980CB992369BF6800DEAE1F /* AuthManagerProtocol.swift in Sources */,
 				7904BFFF2368D8A3001BC787 /* ProfileDatastore.swift in Sources */,
 				790DB1C923689ED9008AD1A2 /* GoogleAuthManager.swift in Sources */,
 				790DB1C523689EB9008AD1A2 /* AppCoordinator.swift in Sources */,

@@ -12,6 +12,7 @@ import AuthenticationServices
 class LoginViewController: BaseViewController {
     
     var onLogInSuccess: (()->Void)?
+    var loginManager: AuthManager!
     private let facebookButton = ActionButton()
     private let googleButton = ActionButton()
     private let appleButton = ActionButton()
@@ -20,7 +21,6 @@ class LoginViewController: BaseViewController {
         super.viewDidLoad()
         title = Constants.Titles.Login
         setupViews()
-        GoogleAuthManager.instance.login(presentingViewController: self, onSuccess: onLogInSuccess)
     }
     
     // MARK: - Setup UI
@@ -59,7 +59,6 @@ class LoginViewController: BaseViewController {
     }
     
     private func setupGIDButton() {
-        
         view.addSubview(googleButton)
         googleButton.anchor(top: nil, leading: self.view.leadingAnchor, bottom: nil, trailing: self.view.trailingAnchor, padding: .init(top: 0, left: 12, bottom: 0, right: 12), size: .init(width: 0, height: 50))
         googleButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -60).isActive = true
@@ -72,21 +71,27 @@ class LoginViewController: BaseViewController {
     }
     
     // MARK: - Actions
-    @objc private func loginFacebook() {
-        FacebookAuthManager.instance.login(in: self, onSuccess: { [weak self] in
+    private func beginLogin() {
+        loginManager.login(in: self, onSuccess: { [weak self] in
             self?.onLogInSuccess?()
         }) { [weak self] errorMessage in
             self?.showMessage(errorMessage)
         }
     }
     
+    @objc private func loginFacebook() {
+        loginManager = FacebookAuthManager()
+        beginLogin()
+    }
+    
     @objc private func loginGoogle() {
-        GoogleAuthManager.instance.login(presentingViewController: self, onSuccess: onLogInSuccess)
+        loginManager = GoogleAuthManager()
+        beginLogin()
     }
     
     @available(iOS 13, *)
     @objc func handleAppleIdRequest() {
-        AppleAuthManager.instance.onLogInSuccess = onLogInSuccess
-        AppleAuthManager.instance.handleAppleIdRequest()
+        loginManager = AppleAuthManager()
+        beginLogin()
     }
 }
