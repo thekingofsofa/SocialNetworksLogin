@@ -27,9 +27,9 @@ class AppCoordinator {
     func start() {
         let authHelper = AuthHelper()
         if authHelper.checkAuthorizationInAllManagers() {
-            showLoginPage()
-        } else {
             showProfilePage()
+        } else {
+            showLoginPage()
         }
     }
 }
@@ -60,7 +60,7 @@ private extension AppCoordinator {
         navigationController.isNavigationBarHidden = false
         let vc = ProfileViewController()
         let datastore = ProfileDatastore()
-        vc.profile = datastore.fetchProfile()
         navigationController.setViewControllers([vc], animated: true)
+        vc.profile = datastore.fetchProfile()
     }
 }

@@ -32,7 +32,12 @@ class GoogleAuthManager: NSObject, AuthManager {
     }
     
     func checkIfAuthorized() -> Bool {
-        return GIDSignIn.sharedInstance()?.hasPreviousSignIn() ?? false
+        if GIDSignIn.sharedInstance()?.hasPreviousSignIn() ?? false {
+            GIDSignIn.sharedInstance()?.restorePreviousSignIn()
+            return true
+        } else {
+            return false
+        }
     }
     
     func restorePreviousLogin() {

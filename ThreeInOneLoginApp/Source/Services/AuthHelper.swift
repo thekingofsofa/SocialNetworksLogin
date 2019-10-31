@@ -9,26 +9,28 @@
 import Foundation
 
 class AuthHelper {
-    private var facebookAuthManager: FacebookAuthManager!
-    private var googleAuthManager: GoogleAuthManager!
+    private var facebookAuthManager = FacebookAuthManager()
+    private var googleAuthManager = GoogleAuthManager()
     private var appleAuthManager: AuthManager!
     
     func checkAuthorizationInAllManagers() -> Bool {
-        if ((facebookAuthManager?.checkIfAuthorized) != nil) { return true }
-        if ((googleAuthManager?.checkIfAuthorized) != nil) { return true }
+        if facebookAuthManager.checkIfAuthorized() == true { return true }
+        if googleAuthManager.checkIfAuthorized() == true { return true }
         if #available(iOS 13, *) {
             appleAuthManager = AppleAuthManager()
-            if ((appleAuthManager?.checkIfAuthorized) != nil) { return true }
+            if appleAuthManager!.checkIfAuthorized() == true { return true }
         }
         return false
     }
     
     func logoutFromAllAuthManagers() {
-        if ((facebookAuthManager?.checkIfAuthorized) != nil) { facebookAuthManager.logout() }
-        if ((googleAuthManager?.checkIfAuthorized) != nil) { googleAuthManager.logout() }
+        let datastore = ProfileDatastore()
+        datastore.clearAllData()
+        if facebookAuthManager.checkIfAuthorized() == true { facebookAuthManager.logout() }
+        if googleAuthManager.checkIfAuthorized() == true { googleAuthManager.logout() }
         if #available(iOS 13, *) {
             appleAuthManager = AppleAuthManager()
-            if ((appleAuthManager?.checkIfAuthorized) != nil) { appleAuthManager.logout() }
+            if appleAuthManager!.checkIfAuthorized() == true { appleAuthManager.logout() }
         }
     }
 }

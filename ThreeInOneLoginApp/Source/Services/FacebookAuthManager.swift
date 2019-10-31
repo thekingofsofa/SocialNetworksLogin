@@ -22,15 +22,18 @@ class FacebookAuthManager: AuthManager {
             if let result = result, result.grantedPermissions.contains("email") {
                 self.getProfileData { (profileInfo) in
                     let datastore = ProfileDatastore()
+                    print(profileInfo)
                     let profile = Profile(context: datastore.managedContext)
-                    onMainQueue {
-                        profile.givenName = profileInfo.first_name
-                        profile.familyName = profileInfo.last_name
-                        profile.email = profileInfo.email
-                        datastore.appendProfile(profileInfo: profile)
-                    }
+                    
+                    profile.givenName = profileInfo.first_name
+                    profile.familyName = profileInfo.last_name
+                    profile.fullName = profileInfo.name
+                    profile.email = profileInfo.email
+                    profile.imageURL = profileInfo.imageURL
+                    datastore.appendProfile(profileInfo: profile)
+                    
+                    onSuccess()
                 }
-                onSuccess()
                 return
             }
             onFailure("Access Not Granted")

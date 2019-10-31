@@ -28,6 +28,8 @@ class ProfileViewController: BaseViewController {
     private func setupViews() {
         navigationItem.leftBarButtonItem = UIBarButtonItem(title: Constants.ButtonTitles.Logout, style: .plain, target: self, action: #selector(logoutTapped))
         
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(updateTapped))
+        
         view.addSubview(profileView)
         profileView.fillSuperview()
     }
@@ -43,5 +45,10 @@ class ProfileViewController: BaseViewController {
         let authHelper = AuthHelper()
         authHelper.logoutFromAllAuthManagers()
         self.close()
+    }
+    
+    @objc func updateTapped() {
+        let datastore = ProfileDatastore()
+        profile = datastore.fetchProfile()
     }
 }

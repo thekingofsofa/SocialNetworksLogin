@@ -63,7 +63,6 @@ class ProfileDatastore {
     // MARK: - Fetching
     func fetchProfile() -> Profile? {
         let fetchRequest: NSFetchRequest<Profile> = Profile.fetchRequest()
-        
         do {
             let data = try (managedContext.fetch(fetchRequest))
             return data.first

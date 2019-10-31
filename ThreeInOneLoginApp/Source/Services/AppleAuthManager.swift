@@ -40,20 +40,14 @@ class AppleAuthManager: NSObject, AuthManager {
             switch credentialState {
             case .authorized:
                 // The Apple ID credential is valid.
-                DispatchQueue.main.async {
-                    result = true
-                    semaphore.signal()
-                }
+                result = true
+                semaphore.signal()
             case .revoked:
                 // The Apple ID credential is revoked.
-                DispatchQueue.main.async {
-                    semaphore.signal()
-                }
+                semaphore.signal()
             case .notFound:
                 // No credential was found, so show the sign-in UI.
-                DispatchQueue.main.async {
-                    semaphore.signal()
-                }
+                semaphore.signal()
             default:
                 semaphore.signal()
                 break
