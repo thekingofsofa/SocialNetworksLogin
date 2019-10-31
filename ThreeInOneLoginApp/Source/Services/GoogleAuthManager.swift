@@ -10,7 +10,7 @@ import Foundation
 import GoogleSignIn
 
 class GoogleAuthManager: NSObject, AuthManager {
-    static let instance = GoogleAuthManager()
+    
     private let datastore = ProfileDatastore()
     
     private var onLogInSuccess: (()->Void)?
@@ -21,6 +21,7 @@ class GoogleAuthManager: NSObject, AuthManager {
     // MARK: - Service methods
     func login(in viewController: UIViewController, onSuccess: @escaping () -> Void, onFailure: @escaping (String) -> Void) {
         GIDSignIn.sharedInstance()?.presentingViewController = viewController
+        GIDSignIn.sharedInstance().delegate = self
         self.onLogInSuccess = onSuccess
         GIDSignIn.sharedInstance()?.signIn()
     }

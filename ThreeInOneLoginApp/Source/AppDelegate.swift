@@ -23,7 +23,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         // GSI. Configure the GIDSignIn shared instance and set the sign-in delegate.
         GIDSignIn.sharedInstance().clientID = "953352529496-khfhegh7m7em8r53l2bl9djdl591dpur.apps.googleusercontent.com"
-        GIDSignIn.sharedInstance().delegate = GoogleAuthManager.instance
         
         coordinator = AppCoordinator()
         coordinator?.start()

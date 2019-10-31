@@ -10,9 +10,8 @@ import Foundation
 import AuthenticationServices
 
 @available(iOS 13, *)
-class AppleAuthManager: NSObject, ASAuthorizationControllerDelegate, AuthManager {
+class AppleAuthManager: NSObject, AuthManager {
     
-    static let instance = AppleAuthManager()
     private let datastore = ProfileDatastore()
     
     var onLogInSuccess: (()->Void)?
@@ -35,38 +34,40 @@ class AppleAuthManager: NSObject, ASAuthorizationControllerDelegate, AuthManager
     func checkIfAuthorized() -> Bool {
         let semaphore = DispatchSemaphore(value: 0)
         var result = false
-
+        
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         appleIDProvider.getCredentialState(forUserID: KeychainItem.currentUserIdentifier) { (credentialState, error) in
-             switch credentialState {
-                case .authorized:
-                    // The Apple ID credential is valid.
-                    DispatchQueue.main.async {
-                       result = true
-                        semaphore.signal()
-                    }
-                case .revoked:
-                    // The Apple ID credential is revoked.
-                    DispatchQueue.main.async {
-                        semaphore.signal()
-                    }
-                case .notFound:
-                    // No credential was found, so show the sign-in UI.
-                    DispatchQueue.main.async {
-                        semaphore.signal()
-                    }
-                default:
+            switch credentialState {
+            case .authorized:
+                // The Apple ID credential is valid.
+                DispatchQueue.main.async {
+                    result = true
                     semaphore.signal()
-                    break
-             }
+                }
+            case .revoked:
+                // The Apple ID credential is revoked.
+                DispatchQueue.main.async {
+                    semaphore.signal()
+                }
+            case .notFound:
+                // No credential was found, so show the sign-in UI.
+                DispatchQueue.main.async {
+                    semaphore.signal()
+                }
+            default:
+                semaphore.signal()
+                break
+            }
         }
         semaphore.wait()
         return result
     }
-    
-    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
-    // Handle error.
-    }
+}
+
+// MARK: - ASAuthorizationControllerDelegate methods
+
+@available(iOS 13, *)
+extension AppleAuthManager: ASAuthorizationControllerDelegate {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as?  ASAuthorizationAppleIDCredential {
@@ -85,5 +86,9 @@ class AppleAuthManager: NSObject, ASAuthorizationControllerDelegate, AuthManager
             }
             onLogInSuccess!()
         }
+    }
+    
+    func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {
+        // Handle error.
     }
 }

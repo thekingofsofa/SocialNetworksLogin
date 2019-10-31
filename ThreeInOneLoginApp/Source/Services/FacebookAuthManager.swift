@@ -12,8 +12,6 @@ import FacebookLogin
 
 class FacebookAuthManager: AuthManager {
     
-    static let instance = FacebookAuthManager()
-    
     func login(in viewController: UIViewController, onSuccess: @escaping () -> Void, onFailure: @escaping (String) -> Void) {
         let fbLoginManager : LoginManager = LoginManager()
         fbLoginManager.logIn(permissions: ["email", "public_profile"], from: viewController) { (result, error) -> Void in
