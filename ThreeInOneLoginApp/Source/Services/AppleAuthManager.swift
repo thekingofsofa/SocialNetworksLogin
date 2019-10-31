@@ -17,6 +17,7 @@ class AppleAuthManager: NSObject, AuthManager {
     var onLogInSuccess: (()->Void)?
     
     func login(in viewController: UIViewController, onSuccess: @escaping () -> Void, onFailure: @escaping (String) -> Void) {
+        onLogInSuccess = onSuccess
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         let request = appleIDProvider.createRequest()
         request.requestedScopes = [.fullName, .email]
@@ -78,7 +79,7 @@ extension AppleAuthManager: ASAuthorizationControllerDelegate {
             } catch {
                 print("Unable to save userIdentifier to keychain.")
             }
-            onLogInSuccess!()
+            onLogInSuccess?()
         }
     }
     
