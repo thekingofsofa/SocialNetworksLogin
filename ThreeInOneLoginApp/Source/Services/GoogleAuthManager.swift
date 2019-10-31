@@ -9,8 +9,7 @@
 import Foundation
 import GoogleSignIn
 
-class GoogleAuthManager: NSObject, GIDSignInDelegate, AuthManager {
-    
+class GoogleAuthManager: NSObject, AuthManager {
     static let instance = GoogleAuthManager()
     private let datastore = ProfileDatastore()
     
@@ -25,10 +24,14 @@ class GoogleAuthManager: NSObject, GIDSignInDelegate, AuthManager {
         self.onLogInSuccess = onSuccess
         GIDSignIn.sharedInstance()?.signIn()
     }
-
+    
     func logout() {
         GIDSignIn.sharedInstance().signOut()
         NotificationCenter.default.post(Notification(name: .init(Constants.Notifications.UserLogedOut)))
+    }
+    
+    func checkIfAuthorized() -> Bool {
+        return GIDSignIn.sharedInstance()?.hasPreviousSignIn() ?? false
     }
     
     func restorePreviousLogin() {
@@ -40,8 +43,11 @@ class GoogleAuthManager: NSObject, GIDSignInDelegate, AuthManager {
             completion(profile)
         }
     }
-    
-    // MARK: - GIDSignInDelegate methods
+}
+
+// MARK: - GIDSignInDelegate methods
+
+extension GoogleAuthManager: GIDSignInDelegate {
     func sign(_ signIn: GIDSignIn!, didSignInFor user: GIDGoogleUser!,
               withError error: Error!) {
         if let error = error {
@@ -55,8 +61,8 @@ class GoogleAuthManager: NSObject, GIDSignInDelegate, AuthManager {
         
         // Perform any operations on signed in user here.
         let profile = Profile(context: datastore.managedContext)
-//        profile.userId = user.userID                  // For client-side use only!
-//        profile.idToken = user.authentication.idToken // Safe to send to the server
+        //        profile.userId = user.userID                  // For client-side use only!
+        //        profile.idToken = user.authentication.idToken // Safe to send to the server
         profile.fullName = user.profile.name
         profile.givenName = user.profile.givenName
         profile.familyName = user.profile.familyName

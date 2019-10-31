@@ -32,29 +32,36 @@ class AppleAuthManager: NSObject, ASAuthorizationControllerDelegate, AuthManager
         NotificationCenter.default.post(Notification(name: .init(Constants.Notifications.UserLogedOut)))
     }
     
-    func checkAuthorization(completionHandler: @escaping(_ isAuthorized: Bool) -> Void) {
+    func checkIfAuthorized() -> Bool {
+        let semaphore = DispatchSemaphore(value: 0)
+        var result = false
+
         let appleIDProvider = ASAuthorizationAppleIDProvider()
         appleIDProvider.getCredentialState(forUserID: KeychainItem.currentUserIdentifier) { (credentialState, error) in
              switch credentialState {
                 case .authorized:
                     // The Apple ID credential is valid.
                     DispatchQueue.main.async {
-                        completionHandler(true)
+                       result = true
+                        semaphore.signal()
                     }
                 case .revoked:
                     // The Apple ID credential is revoked.
                     DispatchQueue.main.async {
-                        completionHandler(false)
+                        semaphore.signal()
                     }
                 case .notFound:
                     // No credential was found, so show the sign-in UI.
                     DispatchQueue.main.async {
-                        completionHandler(false)
+                        semaphore.signal()
                     }
                 default:
+                    semaphore.signal()
                     break
              }
         }
+        semaphore.wait()
+        return result
     }
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithError error: Error) {

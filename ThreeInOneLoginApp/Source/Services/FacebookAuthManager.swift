@@ -12,6 +12,8 @@ import FacebookLogin
 
 class FacebookAuthManager: AuthManager {
     
+    static let instance = FacebookAuthManager()
+    
     func login(in viewController: UIViewController, onSuccess: @escaping () -> Void, onFailure: @escaping (String) -> Void) {
         let fbLoginManager : LoginManager = LoginManager()
         fbLoginManager.logIn(permissions: ["email", "public_profile"], from: viewController) { (result, error) -> Void in
@@ -37,17 +39,14 @@ class FacebookAuthManager: AuthManager {
         }
     }
     
-    
-    static let instance = FacebookAuthManager()
-    
-    var isAuthorized = {
-        return AccessToken.current != nil
-    }
-    
     func logout() {
         let fbLoginManager : LoginManager = LoginManager()
         fbLoginManager.logOut()
         NotificationCenter.default.post(Notification(name: .init(Constants.Notifications.UserLogedOut)))
+    }
+    
+    func checkIfAuthorized() -> Bool {
+        return AccessToken.current != nil
     }
     
     func getProfileData(completion: @escaping (FBProfileInfo)->Void){

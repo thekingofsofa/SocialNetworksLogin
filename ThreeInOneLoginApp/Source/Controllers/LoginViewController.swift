@@ -12,7 +12,8 @@ import AuthenticationServices
 class LoginViewController: BaseViewController {
     
     var onLogInSuccess: (()->Void)?
-    var loginManager: AuthManager!
+    
+    private var loginManager: AuthManager!
     private let facebookButton = ActionButton()
     private let googleButton = ActionButton()
     private let appleButton = ActionButton()
@@ -42,7 +43,7 @@ class LoginViewController: BaseViewController {
         
         appleButton.setupUI(bordered: false, textColor: .white, secondaryColor: .lightGray)
         appleButton.action = Action(title: Constants.ButtonTitles.AppleLogin, iconName: nil, handler: { [weak self] in
-            self?.handleAppleIdRequest()
+            self?.loginApple()
         })
     }
     
@@ -71,14 +72,6 @@ class LoginViewController: BaseViewController {
     }
     
     // MARK: - Actions
-    private func beginLogin() {
-        loginManager.login(in: self, onSuccess: { [weak self] in
-            self?.onLogInSuccess?()
-        }) { [weak self] errorMessage in
-            self?.showMessage(errorMessage)
-        }
-    }
-    
     @objc private func loginFacebook() {
         loginManager = FacebookAuthManager()
         beginLogin()
@@ -90,8 +83,16 @@ class LoginViewController: BaseViewController {
     }
     
     @available(iOS 13, *)
-    @objc func handleAppleIdRequest() {
+    @objc private func loginApple() {
         loginManager = AppleAuthManager()
         beginLogin()
+    }
+    
+    private func beginLogin() {
+        loginManager.login(in: self, onSuccess: { [weak self] in
+            self?.onLogInSuccess?()
+        }) { [weak self] errorMessage in
+            self?.showMessage(errorMessage)
+        }
     }
 }

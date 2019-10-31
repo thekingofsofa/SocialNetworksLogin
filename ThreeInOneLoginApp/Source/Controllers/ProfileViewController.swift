@@ -40,19 +40,8 @@ class ProfileViewController: BaseViewController {
     
     // MARK: - Actions
     @objc func logoutTapped() {
-        if GoogleAuthManager.instance.isAuthorized() ?? false {
-            GoogleAuthManager.instance.logout()
-        }
-        if FacebookAuthManager.instance.isAuthorized() {
-            FacebookAuthManager.instance.logout()
-        }
-        if #available(iOS 13, *) {
-            AppleAuthManager.instance.checkAuthorization() { success in
-                if success {
-                    AppleAuthManager.instance.logout()
-                }
-            }
-        }
+        let authHelper = AuthHelper()
+        authHelper.logoutFromAllAuthManagers()
         self.close()
     }
 }

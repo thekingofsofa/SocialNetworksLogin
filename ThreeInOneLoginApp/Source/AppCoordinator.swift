@@ -25,24 +25,11 @@ class AppCoordinator {
     }
     
     func start() {
-        
-        if FacebookAuthManager.instance.isAuthorized() {
-            showProfilePage()
-        } else if GoogleAuthManager.instance.isAuthorized() ?? false {
-            GoogleAuthManager.instance.restorePreviousLogin()
-            showProfilePage()
+        let authHelper = AuthHelper()
+        if authHelper.checkAuthorizationInAllManagers() {
+            showLoginPage()
         } else {
-            if #available(iOS 13, *) {
-                AppleAuthManager.instance.checkAuthorization() { success in
-                    if success {
-                        self.showProfilePage()
-                    } else {
-                        self.showLoginPage()
-                    }
-                }
-            } else {
-                self.showLoginPage()
-            }
+            showProfilePage()
         }
     }
 }
