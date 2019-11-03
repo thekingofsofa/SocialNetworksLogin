@@ -27,16 +27,17 @@ class ProfileDatastore {
     }
     
     // MARK: - Inserting
-    func appendProfile(profileInfo: Profile)  {
+    func appendProfile(profileInfo: ProfileInfo, completion: @escaping (Profile)->())  {
         let entity = NSEntityDescription.entity(forEntityName: "Profile", in: managedContext)!
         if let profile = NSManagedObject(entity: entity, insertInto: managedContext) as? Profile {
             profile.email = profileInfo.email
-            profile.familyName = profileInfo.familyName
-            profile.givenName = profileInfo.givenName
+            profile.familyName = profileInfo.lastName
+            profile.givenName = profileInfo.firstName
             profile.fullName = profileInfo.fullName
             profile.imageURL = profileInfo.imageURL
 
             stack.saveContext()
+            completion(profile)
         }
     }
     

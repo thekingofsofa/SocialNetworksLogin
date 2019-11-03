@@ -25,8 +25,7 @@ class AppCoordinator {
     }
     
     func start() {
-        let authHelper = AuthHelper()
-        if authHelper.checkAuthorizationInAllManagers() {
+        if AuthHelper.instance.isAuthorized() {
             showProfilePage()
         } else {
             showLoginPage()
@@ -43,6 +42,7 @@ private extension AppCoordinator {
     
     // MARK: - Actions
     @objc func onDidLogout() {
+        AuthHelper.instance.clearAllData()
         start()
     }
     
@@ -59,8 +59,12 @@ private extension AppCoordinator {
     func showProfilePage() {
         navigationController.isNavigationBarHidden = false
         let vc = ProfileViewController()
-        let datastore = ProfileDatastore()
         navigationController.setViewControllers([vc], animated: true)
-        vc.profile = datastore.fetchProfile()
+        vc.reloadAction = {
+            AuthHelper.instance.updateProfile { [weak vc] in vc?.profile = $0 }
+        }
+        AuthHelper.instance.fetchProfile { [weak vc] in
+            vc?.profile = $0
+        }
     }
 }

@@ -1,9 +1,9 @@
 //
-//  FBProfileInfo.swift
-//  PharosTestApp
+//  LoginView.swift
+//  ThreeInOneLoginApp
 //
-//  Created by Andriy Roshchin on 10/22/19.
-//  Copyright © 2019 Andriy Roshchin. All rights reserved.
+//  Created by Иван Барабанщиков on 11/1/19.
+//  Copyright © 2019 Ivan Barabanshchykov. All rights reserved.
 //
 
 import Foundation
@@ -23,20 +23,29 @@ struct FieldsHelper {
     }
 }
 
-struct FBProfileInfo {
-    let first_name: String?
-    let last_name: String?
-    let name: String?
+struct ProfileInfo {
+    let firstName: String?
+    let lastName: String?
+    let fullName: String?
     let id: String?
     let email: String?
     let imageURL: String?
     
     init(dict: [String:Any]) {
-        first_name = dict["first_name"] as? String
-        last_name = dict["last_name"] as? String
-        name = dict["name"] as? String
+        firstName = dict["first_name"] as? String
+        lastName = dict["last_name"] as? String
+        fullName = dict["name"] as? String
         id = dict["id"] as? String
         email = dict["email"] as? String
         imageURL = ((dict["picture"] as? [String:Any])?["data"] as? [String:Any])?["url"] as? String
+    }
+    
+    init(firstName: String?, lastName: String?, fullName: String?, id: String?, email: String?, imageURL: String?) {
+        self.firstName = firstName
+        self.lastName = lastName
+        self.fullName = fullName
+        self.id = id
+        self.email = email
+        self.imageURL = imageURL
     }
 }

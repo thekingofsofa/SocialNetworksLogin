@@ -12,8 +12,7 @@ import AuthenticationServices
 @available(iOS 13, *)
 class AppleAuthManager: NSObject, AuthManager {
     
-    private let datastore = ProfileDatastore()
-    
+    var profile: ProfileInfo?
     var onLogInSuccess: (()->Void)?
     
     func login(in viewController: UIViewController, onSuccess: @escaping () -> Void, onFailure: @escaping (String) -> Void) {
@@ -32,7 +31,7 @@ class AppleAuthManager: NSObject, AuthManager {
         NotificationCenter.default.post(Notification(name: .init(Constants.Notifications.UserLogedOut)))
     }
     
-    func checkIfAuthorized() -> Bool {
+    func checkAuthorization() -> Bool {
         let semaphore = DispatchSemaphore(value: 0)
         var result = false
         
@@ -57,6 +56,12 @@ class AppleAuthManager: NSObject, AuthManager {
         semaphore.wait()
         return result
     }
+    
+    func getProfileData(completion: @escaping (ProfileInfo) -> Void) {
+        if let profile = profile {
+            completion(profile)
+        }
+    }
 }
 
 // MARK: - ASAuthorizationControllerDelegate methods
@@ -66,13 +71,9 @@ extension AppleAuthManager: ASAuthorizationControllerDelegate {
     
     func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
         if let appleIDCredential = authorization.credential as?  ASAuthorizationAppleIDCredential {
-            let profile = Profile(context: datastore.managedContext)
             let userIdentifier = appleIDCredential.user
-            profile.givenName = appleIDCredential.fullName?.givenName
-            profile.familyName = appleIDCredential.fullName?.familyName
-            profile.email = appleIDCredential.email
+            profile = ProfileInfo(firstName: appleIDCredential.fullName?.givenName, lastName: appleIDCredential.fullName?.familyName, fullName: appleIDCredential.fullName?.description, id: userIdentifier, email: appleIDCredential.email, imageURL: nil)
             
-            datastore.appendProfile(profileInfo: profile)
             // For the purpose of this demo app, store the userIdentifier in the keychain.
             do {
                 try KeychainItem(service: "com.example.apple-samplecode.juice", account: "userIdentifier").saveItem(userIdentifier)

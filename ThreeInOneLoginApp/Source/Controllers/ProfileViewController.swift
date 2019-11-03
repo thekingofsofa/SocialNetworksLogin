@@ -10,12 +10,14 @@ import UIKit
 
 class ProfileViewController: BaseViewController {
     
-    private let profileView = ProfileView()
     var profile: Profile? {
         didSet {
             configureView()
         }
     }
+    var reloadAction: (()->Void)?
+    
+    private let profileView = ProfileView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,20 +36,19 @@ class ProfileViewController: BaseViewController {
         profileView.fillSuperview()
     }
     
-    func configureView() {
+    private func configureView() {
         if let profile = profile {
             profileView.configure(profile: profile)
         }
     }
     
     // MARK: - Actions
-    @objc func logoutTapped() {
-        let authHelper = AuthHelper()
-        authHelper.logoutFromAllAuthManagers()
+    @objc private func logoutTapped() {
+        AuthHelper.instance.logout()
         self.close()
     }
     
-    @objc func updateTapped() {
+    @objc private func updateTapped() {
         let datastore = ProfileDatastore()
         profile = datastore.fetchProfile()
     }

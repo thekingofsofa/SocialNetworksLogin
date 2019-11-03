@@ -11,17 +11,17 @@ import GoogleSignIn
 
 class GoogleAuthManager: NSObject, AuthManager {
     
-    private let datastore = ProfileDatastore()
-    
+    var profile: ProfileInfo?
     private var onLogInSuccess: (()->Void)?
-    var isAuthorized = {
-        return GIDSignIn.sharedInstance()?.hasPreviousSignIn()
+    
+    override init() {
+        super.init()
+        GIDSignIn.sharedInstance().delegate = self
     }
     
     // MARK: - Service methods
     func login(in viewController: UIViewController, onSuccess: @escaping () -> Void, onFailure: @escaping (String) -> Void) {
         GIDSignIn.sharedInstance()?.presentingViewController = viewController
-        GIDSignIn.sharedInstance().delegate = self
         self.onLogInSuccess = onSuccess
         GIDSignIn.sharedInstance()?.signIn()
     }
@@ -31,7 +31,7 @@ class GoogleAuthManager: NSObject, AuthManager {
         NotificationCenter.default.post(Notification(name: .init(Constants.Notifications.UserLogedOut)))
     }
     
-    func checkIfAuthorized() -> Bool {
+    func checkAuthorization() -> Bool {
         if GIDSignIn.sharedInstance()?.hasPreviousSignIn() ?? false {
             GIDSignIn.sharedInstance()?.restorePreviousSignIn()
             return true
@@ -44,8 +44,8 @@ class GoogleAuthManager: NSObject, AuthManager {
         GIDSignIn.sharedInstance()?.restorePreviousSignIn()
     }
     
-    func fetchProfile(completion: @escaping (Profile)->Void) {
-        if let profile = datastore.fetchProfile() {
+    func getProfileData(completion: @escaping (ProfileInfo) -> Void) {
+        if let profile = profile {
             completion(profile)
         }
     }
@@ -66,23 +66,10 @@ extension GoogleAuthManager: GIDSignInDelegate {
         }
         
         // Perform any operations on signed in user here.
-        let profile = Profile(context: datastore.managedContext)
-        //        profile.userId = user.userID                  // For client-side use only!
-        //        profile.idToken = user.authentication.idToken // Safe to send to the server
-        profile.fullName = user.profile.name
-        profile.givenName = user.profile.givenName
-        profile.familyName = user.profile.familyName
-        profile.email = user.profile.email
-        profile.imageURL = user.profile.imageURL(withDimension: 400)?.absoluteString
+        // user.userID                  // For client-side use only!
+        // user.authentication.idToken // Safe to send to the server
         
-        datastore.appendProfile(profileInfo: profile)
-        
+        profile = ProfileInfo(firstName: user.profile.givenName, lastName: user.profile.familyName, fullName: user.profile.name, id: user.authentication.idToken, email: user.profile.email, imageURL: (user.profile.imageURL(withDimension:400)?.absoluteString)!)
         onLogInSuccess?()
-    }
-    
-    func sign(_ signIn: GIDSignIn!, didDisconnectWith user: GIDGoogleUser!,
-              withError error: Error!) {
-        
-        datastore.clearAllData()
     }
 }

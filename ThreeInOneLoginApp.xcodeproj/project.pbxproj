@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		5E8C44D7BF09D4B404932303 /* Pods_ThreeInOneLoginApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C43BE3B830488A4B3FC83484 /* Pods_ThreeInOneLoginApp.framework */; };
 		7904BFEB2368B066001BC787 /* FacebookAuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7904BFE82368B066001BC787 /* FacebookAuthManager.swift */; };
-		7904BFEE2368B0B4001BC787 /* FBProfileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7904BFED2368B0B4001BC787 /* FBProfileInfo.swift */; };
+		7904BFEE2368B0B4001BC787 /* ProfileInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7904BFED2368B0B4001BC787 /* ProfileInfo.swift */; };
 		7904BFF02368B78E001BC787 /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7904BFEF2368B78E001BC787 /* HUDView.swift */; };
 		7904BFF22368B7B0001BC787 /* DispatchQueueHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7904BFF12368B7B0001BC787 /* DispatchQueueHelper.swift */; };
 		7904BFF62368C1A7001BC787 /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7904BFF52368C1A7001BC787 /* ActionButton.swift */; };
@@ -35,13 +35,14 @@
 		7961637923688CDB002F6881 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7961637823688CDB002F6881 /* Assets.xcassets */; };
 		7961637C23688CDB002F6881 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7961637A23688CDB002F6881 /* LaunchScreen.storyboard */; };
 		7964F683236A239F00C1D0CE /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7964F682236A239F00C1D0CE /* AuthHelper.swift */; };
+		79790D53236C7827008DB813 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79790D52236C7827008DB813 /* LoginView.swift */; };
 		7980CB992369BF6800DEAE1F /* AuthManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7980CB982369BF6800DEAE1F /* AuthManagerProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		1CF61A0EC4C5EDDE289EFA3C /* Pods-ThreeInOneLoginApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ThreeInOneLoginApp.release.xcconfig"; path = "Target Support Files/Pods-ThreeInOneLoginApp/Pods-ThreeInOneLoginApp.release.xcconfig"; sourceTree = "<group>"; };
 		7904BFE82368B066001BC787 /* FacebookAuthManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookAuthManager.swift; sourceTree = "<group>"; };
-		7904BFED2368B0B4001BC787 /* FBProfileInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FBProfileInfo.swift; sourceTree = "<group>"; };
+		7904BFED2368B0B4001BC787 /* ProfileInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileInfo.swift; sourceTree = "<group>"; };
 		7904BFEF2368B78E001BC787 /* HUDView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
 		7904BFF12368B7B0001BC787 /* DispatchQueueHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchQueueHelper.swift; sourceTree = "<group>"; };
 		7904BFF52368C1A7001BC787 /* ActionButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
@@ -71,6 +72,7 @@
 		7961637B23688CDB002F6881 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7961637D23688CDB002F6881 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7964F682236A239F00C1D0CE /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
+		79790D52236C7827008DB813 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		7980CB982369BF6800DEAE1F /* AuthManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerProtocol.swift; sourceTree = "<group>"; };
 		C43BE3B830488A4B3FC83484 /* Pods_ThreeInOneLoginApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ThreeInOneLoginApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F77CD87745B218742A503C54 /* Pods-ThreeInOneLoginApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ThreeInOneLoginApp.debug.xcconfig"; path = "Target Support Files/Pods-ThreeInOneLoginApp/Pods-ThreeInOneLoginApp.debug.xcconfig"; sourceTree = "<group>"; };
@@ -129,6 +131,7 @@
 			isa = PBXGroup;
 			children = (
 				790DB1CA23689EEB008AD1A2 /* ProfileView.swift */,
+				79790D52236C7827008DB813 /* LoginView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -136,7 +139,7 @@
 		790DB1B123689E0B008AD1A2 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				7904BFED2368B0B4001BC787 /* FBProfileInfo.swift */,
+				7904BFED2368B0B4001BC787 /* ProfileInfo.swift */,
 				790DB1D023689F20008AD1A2 /* ProfileData.xcdatamodeld */,
 			);
 			path = Models;
@@ -382,7 +385,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7904BFEE2368B0B4001BC787 /* FBProfileInfo.swift in Sources */,
+				7904BFEE2368B0B4001BC787 /* ProfileInfo.swift in Sources */,
 				7904BFEB2368B066001BC787 /* FacebookAuthManager.swift in Sources */,
 				7904BFFB2368D841001BC787 /* KeychainItem.swift in Sources */,
 				790DB1CF23689F05008AD1A2 /* LoginViewController.swift in Sources */,
@@ -392,6 +395,7 @@
 				7964F683236A239F00C1D0CE /* AuthHelper.swift in Sources */,
 				790DB1BB23689E5F008AD1A2 /* UIView+AutoLayout.swift in Sources */,
 				7961637223688CDB002F6881 /* AppDelegate.swift in Sources */,
+				79790D53236C7827008DB813 /* LoginView.swift in Sources */,
 				7904BFF02368B78E001BC787 /* HUDView.swift in Sources */,
 				790DB1BD23689E77008AD1A2 /* CoreDataStack.swift in Sources */,
 				7904BFF82368C1AD001BC787 /* Action.swift in Sources */,

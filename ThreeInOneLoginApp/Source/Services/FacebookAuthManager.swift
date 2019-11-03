@@ -20,20 +20,7 @@ class FacebookAuthManager: AuthManager {
                 return
             }
             if let result = result, result.grantedPermissions.contains("email") {
-                self.getProfileData { (profileInfo) in
-                    let datastore = ProfileDatastore()
-                    print(profileInfo)
-                    let profile = Profile(context: datastore.managedContext)
-                    
-                    profile.givenName = profileInfo.first_name
-                    profile.familyName = profileInfo.last_name
-                    profile.fullName = profileInfo.name
-                    profile.email = profileInfo.email
-                    profile.imageURL = profileInfo.imageURL
-                    datastore.appendProfile(profileInfo: profile)
-                    
-                    onSuccess()
-                }
+                onSuccess()
                 return
             }
             onFailure("Access Not Granted")
@@ -46,16 +33,17 @@ class FacebookAuthManager: AuthManager {
         NotificationCenter.default.post(Notification(name: .init(Constants.Notifications.UserLogedOut)))
     }
     
-    func checkIfAuthorized() -> Bool {
+    func checkAuthorization() -> Bool {
         return AccessToken.current != nil
     }
     
-    func getProfileData(completion: @escaping (FBProfileInfo)->Void){
+    func getProfileData(completion: @escaping (ProfileInfo)->Void){
         if((AccessToken.current) != nil) {
             let params = FieldsHelper.getParameters(for: [.id, .picture, . email, .name])
             GraphRequest(graphPath: "me", parameters: params).start(completionHandler: { (connection, result, error) -> Void in
                 if (error == nil), let result = result as? [String:Any] {
-                    completion(FBProfileInfo(dict: result))
+                    let profileInfo = ProfileInfo(dict: result)
+                    completion(profileInfo)
                 }
             })
         }

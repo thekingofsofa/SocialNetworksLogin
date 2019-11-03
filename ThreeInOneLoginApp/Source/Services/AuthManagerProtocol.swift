@@ -12,5 +12,7 @@ protocol AuthManager {
     func login(in viewController: UIViewController, onSuccess: @escaping ()-> Void, onFailure: @escaping (String)->Void)
     func logout()
     
-    func checkIfAuthorized() -> Bool
+    func checkAuthorization() -> Bool
+    
+    func getProfileData(completion: @escaping (ProfileInfo)->Void)
 }

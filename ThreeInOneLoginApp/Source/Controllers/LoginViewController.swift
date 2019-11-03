@@ -13,10 +13,7 @@ class LoginViewController: BaseViewController {
     
     var onLogInSuccess: (()->Void)?
     
-    private var loginManager: AuthManager!
-    private let facebookButton = ActionButton()
-    private let googleButton = ActionButton()
-    private let appleButton = ActionButton()
+    private var loginView = LoginView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,69 +24,43 @@ class LoginViewController: BaseViewController {
     // MARK: - Setup UI
     private func setupViews() {
         view.backgroundColor = .red
-        setupGIDButton()
-        setupFBButton()
-        if #available(iOS 13, *) {
-            setUpSignInAppleButton()
-        }
-    }
-    
-    @available(iOS 13, *)
-    func setUpSignInAppleButton() {
-        view.addSubview(appleButton)
-        appleButton.anchor(top: nil, leading: self.view.leadingAnchor, bottom: nil, trailing: self.view.trailingAnchor, padding: .init(top: 0, left: 12, bottom: 0, right: 12), size: .init(width: 0, height: 50))
-        appleButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 60).isActive = true
-        appleButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
+        view.addSubview(loginView)
+        loginView.anchor(top: nil, leading: self.view.leadingAnchor, bottom: nil, trailing: self.view.trailingAnchor, padding: .init(top: 0, left: 12, bottom: 0, right: 12), size: .init(width: 0, height: 200))
+        loginView.centerYAnchor.constraint(equalTo: self.view.centerYAnchor).isActive = true
+        loginView.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
         
-        appleButton.setupUI(bordered: false, textColor: .white, secondaryColor: .lightGray)
-        appleButton.action = Action(title: Constants.ButtonTitles.AppleLogin, iconName: nil, handler: { [weak self] in
-            self?.loginApple()
-        })
-    }
-    
-    private func setupFBButton() {
-        view.addSubview(facebookButton)
-        facebookButton.anchor(top: nil, leading: self.view.leadingAnchor, bottom: nil, trailing: self.view.trailingAnchor, padding: .init(top: 0, left: 12, bottom: 0, right: 12), size: .init(width: 0, height: 50))
-        facebookButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: 0).isActive = true
-        facebookButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
-        facebookButton.setupUI(bordered: false, textColor: .white, secondaryColor: .lightGray)
-        facebookButton.action = Action(title: Constants.ButtonTitles.FBLogin, iconName: nil, handler: { [weak self] in
+        loginView.facebookButton.action = Action(title: Constants.ButtonTitles.FBLogin, iconName: nil, handler: { [weak self] in
             self?.loginFacebook()
         })
-    }
-    
-    private func setupGIDButton() {
-        view.addSubview(googleButton)
-        googleButton.anchor(top: nil, leading: self.view.leadingAnchor, bottom: nil, trailing: self.view.trailingAnchor, padding: .init(top: 0, left: 12, bottom: 0, right: 12), size: .init(width: 0, height: 50))
-        googleButton.centerYAnchor.constraint(equalTo: self.view.centerYAnchor, constant: -60).isActive = true
-        googleButton.centerXAnchor.constraint(equalTo: self.view.centerXAnchor).isActive = true
-        
-        googleButton.setupUI(bordered: false, textColor: .white, secondaryColor: .lightGray)
-        googleButton.action = Action(title: Constants.ButtonTitles.GoogleLogin, iconName: nil, handler: { [weak self] in
+        loginView.googleButton.action = Action(title: Constants.ButtonTitles.GoogleLogin, iconName: nil, handler: { [weak self] in
             self?.loginGoogle()
+        })
+        loginView.appleButton.action = Action(title: Constants.ButtonTitles.AppleLogin, iconName: nil, handler: { [weak self] in
+            if #available(iOS 13, *) {
+                self?.loginApple()
+            }
         })
     }
     
     // MARK: - Actions
     @objc private func loginFacebook() {
-        loginManager = FacebookAuthManager()
+        AuthHelper.instance.authManager = FacebookAuthManager()
         beginLogin()
     }
     
     @objc private func loginGoogle() {
-        loginManager = GoogleAuthManager()
+        AuthHelper.instance.authManager = GoogleAuthManager()
         beginLogin()
     }
     
     @available(iOS 13, *)
     @objc private func loginApple() {
-        loginManager = AppleAuthManager()
+        AuthHelper.instance.authManager = AppleAuthManager()
         beginLogin()
     }
     
     private func beginLogin() {
-        loginManager.login(in: self, onSuccess: { [weak self] in
+        AuthHelper.instance.login(in: self, onSuccess: { [weak self] in
             self?.onLogInSuccess?()
         }) { [weak self] errorMessage in
             self?.showMessage(errorMessage)
