@@ -11,7 +11,7 @@ import UIKit
 class AuthHelper {
     
     static let instance = AuthHelper()
-    var authManager: AuthManager!
+    var authManager: AuthManager?
     private let datastore = ProfileDatastore()
     
     func isAuthorized() -> Bool {
@@ -28,7 +28,7 @@ class AuthHelper {
         if #available(iOS 13, *) {
             let appleAuthManager = AppleAuthManager()
             if appleAuthManager.checkAuthorization() == true {
-                authManager = googleAuthManager
+                authManager = appleAuthManager
                 return true
             }
         }
@@ -36,12 +36,12 @@ class AuthHelper {
     }
     
     func login(in viewController: UIViewController, onSuccess: @escaping () -> Void, onFailure: @escaping (String) -> Void) {
-        authManager.login(in: viewController, onSuccess: onSuccess, onFailure: onFailure)
+        authManager?.login(in: viewController, onSuccess: onSuccess, onFailure: onFailure)
     }
     
     func logout() {
         datastore.clearAllData()
-        authManager.logout()
+        authManager?.logout()
     }
     
     func fetchProfile(completion: @escaping (Profile) -> Void ) {
@@ -53,7 +53,7 @@ class AuthHelper {
     }
     
     func updateProfile(completion: @escaping (Profile) -> Void ) {
-        authManager.getProfileData { [weak self] (profileInfo) in
+        authManager?.getProfileData { [weak self] (profileInfo) in
             onMainQueue {
                 self?.datastore.appendProfile(profileInfo: profileInfo, completion: completion)
             }
