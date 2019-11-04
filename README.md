@@ -1,4 +1,4 @@
-#  Three In One Login App
+#  Apple/Google/Facebook Login Example
 
 To implement, first of all, you need to set up your CocoaPods dependencies.
 Add the following to your Podfile:
