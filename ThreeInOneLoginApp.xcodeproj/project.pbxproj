@@ -35,6 +35,9 @@
 		7961637923688CDB002F6881 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7961637823688CDB002F6881 /* Assets.xcassets */; };
 		7961637C23688CDB002F6881 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7961637A23688CDB002F6881 /* LaunchScreen.storyboard */; };
 		7964F683236A239F00C1D0CE /* AuthHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7964F682236A239F00C1D0CE /* AuthHelper.swift */; };
+		797586B22370608400A09865 /* FacebookSignIn1.png in Resources */ = {isa = PBXBuildFile; fileRef = 797586AF2370608400A09865 /* FacebookSignIn1.png */; };
+		797586B32370608400A09865 /* AppleSignIn1.png in Resources */ = {isa = PBXBuildFile; fileRef = 797586B02370608400A09865 /* AppleSignIn1.png */; };
+		797586B42370608400A09865 /* GoogleSignIn1.png in Resources */ = {isa = PBXBuildFile; fileRef = 797586B12370608400A09865 /* GoogleSignIn1.png */; };
 		79790D53236C7827008DB813 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 79790D52236C7827008DB813 /* LoginView.swift */; };
 		7980CB992369BF6800DEAE1F /* AuthManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7980CB982369BF6800DEAE1F /* AuthManagerProtocol.swift */; };
 /* End PBXBuildFile section */
@@ -72,6 +75,9 @@
 		7961637B23688CDB002F6881 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7961637D23688CDB002F6881 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7964F682236A239F00C1D0CE /* AuthHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthHelper.swift; sourceTree = "<group>"; };
+		797586AF2370608400A09865 /* FacebookSignIn1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = FacebookSignIn1.png; sourceTree = "<group>"; };
+		797586B02370608400A09865 /* AppleSignIn1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = AppleSignIn1.png; sourceTree = "<group>"; };
+		797586B12370608400A09865 /* GoogleSignIn1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GoogleSignIn1.png; sourceTree = "<group>"; };
 		79790D52236C7827008DB813 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		7980CB982369BF6800DEAE1F /* AuthManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManagerProtocol.swift; sourceTree = "<group>"; };
 		C43BE3B830488A4B3FC83484 /* Pods_ThreeInOneLoginApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ThreeInOneLoginApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -209,6 +215,8 @@
 		7961636523688CDB002F6881 = {
 			isa = PBXGroup;
 			children = (
+				797586AE2370608400A09865 /* readme_images */,
+				7906B09F2368A48C00739A40 /* README.md */,
 				7961637023688CDB002F6881 /* ThreeInOneLoginApp */,
 				7961636F23688CDB002F6881 /* Products */,
 				ADDCF63273546284D9C3618E /* Pods */,
@@ -230,9 +238,18 @@
 				7904BFF92368D548001BC787 /* ThreeInOneLoginApp.entitlements */,
 				790DB1AC23689D0F008AD1A2 /* SupportingFiles */,
 				790DB1AB23689D09008AD1A2 /* Source */,
-				7906B09F2368A48C00739A40 /* README.md */,
 			);
 			path = ThreeInOneLoginApp;
+			sourceTree = "<group>";
+		};
+		797586AE2370608400A09865 /* readme_images */ = {
+			isa = PBXGroup;
+			children = (
+				797586AF2370608400A09865 /* FacebookSignIn1.png */,
+				797586B02370608400A09865 /* AppleSignIn1.png */,
+				797586B12370608400A09865 /* GoogleSignIn1.png */,
+			);
+			path = readme_images;
 			sourceTree = "<group>";
 		};
 		996356A858970A7ED695A551 /* Frameworks */ = {
@@ -313,9 +330,12 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				797586B42370608400A09865 /* GoogleSignIn1.png in Resources */,
 				7961637C23688CDB002F6881 /* LaunchScreen.storyboard in Resources */,
+				797586B22370608400A09865 /* FacebookSignIn1.png in Resources */,
 				790DB1AA23689CEC008AD1A2 /* credentials.plist in Resources */,
 				7961637923688CDB002F6881 /* Assets.xcassets in Resources */,
+				797586B32370608400A09865 /* AppleSignIn1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -70,6 +70,7 @@ extension GoogleAuthManager: GIDSignInDelegate {
         // user.authentication.idToken // Safe to send to the server
         
         profile = ProfileInfo(firstName: user.profile.givenName, lastName: user.profile.familyName, fullName: user.profile.name, id: user.authentication.idToken, email: user.profile.email, imageURL: (user.profile.imageURL(withDimension:400)?.absoluteString)!)
+        
         onLogInSuccess?()
     }
 }
